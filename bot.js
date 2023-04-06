@@ -422,6 +422,9 @@ async function displayHighestScore(channel) {
     .toArray();
   if (highestScore && highestScore.length > 0) {
     const highestScorer = await client.users.fetch(highestScore[0].userId);
+
+    console.log("DISPLAYING_HIGHEST_SCORE");
+
     channel.send(
       `The highest score is held by ${highestScorer.username} with ${highestScore[0].score} points.`
     );
