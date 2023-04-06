@@ -348,6 +348,7 @@ client.on("ready", () => {
 });
 
 client.on("message", async (msg) => {
+  console.log("MESSAGE", msg.content);
   if (msg.content === "!highestscore") {
     await displayHighestScore(msg.channel);
   }
