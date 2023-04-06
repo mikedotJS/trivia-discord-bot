@@ -1,7 +1,14 @@
 require("dotenv").config();
 
 const Discord = require("discord.js");
-const client = new Discord.Client({ intents: ["Guilds", "GuildMessages"] });
+const client = new Discord.Client({
+  intents: [
+    Discord.GatewayIntentBits.Guilds,
+    Discord.GatewayIntentBits.GuildMessages,
+    Discord.GatewayIntentBits.MessageContent,
+    Discord.GatewayIntentBits.GuildMembers,
+  ],
+});
 const cron = require("node-cron");
 const MongoClient = require("mongodb").MongoClient;
 const _ = require("lodash");
@@ -332,25 +339,29 @@ const triviaQuestions = [
   },
 ];
 
-let db;
+const mongoClient = new MongoClient(uri);
 
-MongoClient.connect(uri, { useUnifiedTopology: true }, (err, client) => {
-  if (err) {
-    console.error("Failed to connect to the database");
-    return;
-  }
-  db = client.db("trivia");
-});
+const db = mongoClient.db("trivia");
 
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
   scheduleTrivia();
 });
 
-client.on("message", async (msg) => {
+client.on(Discord.Events.MessageCreate, async (msg) => {
   console.log("MESSAGE", msg.content);
+  const triviaChannel = client.channels.cache.find(
+    (channel) => channel.name === "trivia"
+  );
   if (msg.content === "!highestscore") {
     await displayHighestScore(msg.channel);
+  }
+
+  if (
+    msg.content === "!askquestion" &&
+    msg.member.hasPermission("ADMINISTRATOR")
+  ) {
+    await askQuestion(triviaChannel);
   }
 });
 
@@ -375,42 +386,47 @@ function scheduleTrivia() {
       return;
     }
 
-    const randomIndex = Math.floor(Math.random() * triviaQuestions.length);
-    const currentQuestion = triviaQuestions[randomIndex];
+    await askQuestion(triviaChannel);
+  });
+}
 
-    const options = _.shuffle(currentQuestion.options);
+async function askQuestion(triviaChannel) {
+  const randomIndex = Math.floor(Math.random() * triviaQuestions.length);
+  const currentQuestion = triviaQuestions[randomIndex];
 
-    const sentMessage = await triviaChannel.send(
-      `Trivia question: ${currentQuestion.question}\n\n1. ${options[0]}\n2. ${options[1]}\n3. ${options[2]}`
-    );
+  const options = _.shuffle(currentQuestion.options);
 
-    const collector = new Discord.MessageCollector(
-      sentMessage.channel,
-      (m) => !m.author.bot,
-      { time: 86400000 }
-    );
+  const sentMessage = await triviaChannel.send(
+    `Trivia question: ${currentQuestion.question}\n\n1. ${options[0]}\n2. ${options[1]}\n3. ${options[2]}`
+  );
 
-    collector.on("collect", async (message) => {
-      const userAnswer = currentQuestion.options[parseInt(message.content) - 1];
-      if (
-        userAnswer &&
-        userAnswer.toLowerCase() === currentQuestion.answer.toLowerCase()
-      ) {
-        await updateUserScore(message.author.id);
-        sentMessage.channel.send(
-          `Correct, ${message.author}! You earned 1 point.`
-        );
-        collector.stop("correct_answer");
-      }
-    });
+  const collector = new Discord.MessageCollector(
+    sentMessage.channel,
+    (m) => !m.author.bot,
+    { time: 86400000 }
+  );
 
-    collector.on("end", (collected, reason) => {
-      if (reason !== "correct_answer") {
-        sentMessage.channel.send(
-          `Time's up! The correct answer is: ${currentQuestion.answer}`
-        );
-      }
-    });
+  collector.on("collect", async (message) => {
+    const userAnswer = options[parseInt(message.content) - 1];
+
+    if (
+      userAnswer &&
+      userAnswer.toLowerCase() === currentQuestion.answer.toLowerCase()
+    ) {
+      await updateUserScore(message.author.id);
+      sentMessage.channel.send(
+        `Correct, ${message.author}! You earned 1 point.`
+      );
+      collector.stop("correct_answer");
+    }
+  });
+
+  collector.on("end", (collected, reason) => {
+    if (reason !== "correct_answer") {
+      sentMessage.channel.send(
+        `Time's up! The correct answer is: ${currentQuestion.answer}`
+      );
+    }
   });
 }
 
