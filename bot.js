@@ -12,6 +12,7 @@ const client = new Discord.Client({
 const cron = require("node-cron");
 const MongoClient = require("mongodb").MongoClient;
 const _ = require("lodash");
+const axios = require("axios");
 const { triviaQuestions } = require("./triviaQuestions");
 
 const uri = process.env.MONGODB_URI;
@@ -41,20 +42,49 @@ client.on(Discord.Events.MessageCreate, async (msg) => {
 
   if (
     msg.content === "!askquestion" &&
-    msg.member.hasPermission("ADMINISTRATOR")
+    msg.member.permissions.has("Administrator")
   ) {
     await askQuestion(triviaChannel);
   }
+
+  if (msg.content === "!myprofile") {
+    await displayUserProfile(msg.author.id, msg.channel);
+  }
+
+  if (msg.content === "!gamenews") {
+    const news = await fetchGameNewsAndReleases();
+    displayGameNewsAndReleases(msg.channel, news);
+  }
 });
 
-async function updateUserScore(userId) {
+async function updateUserScore(userId, isCorrect) {
   const userScore = await db.collection("scores").findOne({ userId });
+
   if (userScore) {
-    await db
-      .collection("scores")
-      .updateOne({ userId }, { $set: { score: userScore.score + 1 } });
+    const newTotalQuestions = (userScore.totalQuestions ?? 0) + 1;
+    const newCorrectAnswers =
+      (userScore.correctAnswers ?? 0) + (isCorrect ? 1 : 0);
+    const newAccuracy = (newCorrectAnswers / newTotalQuestions) * 100;
+
+    await db.collection("scores").updateOne(
+      { userId },
+      {
+        $set: {
+          score: isCorrect ? userScore.score + 1 : userScore.score,
+          totalQuestions: newTotalQuestions,
+          correctAnswers: newCorrectAnswers,
+          accuracy: newAccuracy,
+        },
+      }
+    );
   } else {
-    await db.collection("scores").insertOne({ userId, score: 1 });
+    await db.collection("scores").insertOne({
+      userId,
+      score: isCorrect ? 1 : 0,
+      totalQuestions: 1,
+      correctAnswers: isCorrect ? 1 : 0,
+      accuracy: isCorrect ? 100 : 0,
+    });
   }
 }
 
@@ -113,11 +143,13 @@ async function askQuestion(triviaChannel) {
     if (answeredUsers.includes(message.author.id)) return;
 
     const userAnswer = options[parseInt(message.content) - 1];
-    if (
+
+    const isCorrect =
       userAnswer &&
-      userAnswer.toLowerCase() === currentQuestion.answer.toLowerCase()
-    ) {
-      await updateUserScore(message.author.id);
+      userAnswer.toLowerCase() === currentQuestion.answer.toLowerCase();
+    await updateUserScore(message.author.id, isCorrect);
+
+    if (isCorrect) {
       sentMessage.channel.send(
         `Correct, ${message.author}! You earned 1 point.`
       );
@@ -177,6 +209,87 @@ async function displayTopTenScores(channel) {
   });
 
   channel.send(message);
+}
+
+async function displayUserProfile(userId, channel) {
+  const userScore = await db.collection("scores").findOne({ userId });
+
+  if (userScore) {
+    const user = await client.users.fetch(userId);
+
+    const message = `**${user.username}'s Profile**\n
+Total Points: ${userScore.score}\n
+Total Questions Answered: ${userScore.totalQuestions ?? 0}\n
+Correct Answers: ${userScore.correctAnswers ?? 0}\n
+Accuracy: ${userScore.accuracy ? userScore.accuracy.toFixed(2) : 0}%\n`;
+
+    channel.send(message);
+  } else {
+    channel.send("No profile information available.");
+  }
+}
+
+async function fetchGameNewsAndReleases() {
+  const url = "https://api.igdb.com/v4/games";
+  const { access_token } = await authenticateTwitch();
+
+  const headers = {
+    "Client-ID": process.env.TWITCH_CLIENT_ID,
+    Authorization: `Bearer ${access_token}`,
+  };
+
+  // You can adjust the search parameters according to your needs
+  const requestBody = `
+  fields name,first_release_date,cover.url,release_dates.platform.name; where platforms = (6,130,167,169) & first_release_date > ${Math.ceil(
+    Date.now() / 1_000
+  )}; sort first_release_date asc; limit 5;
+  `;
+
+  try {
+    const response = await axios.post(url, requestBody, { headers });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching game news and releases:", error.message);
+    return [];
+  }
+}
+
+function displayGameNewsAndReleases(channel, news) {
+  let message = "**Upcoming Game Releases**\n\n";
+
+  news.forEach((game) => {
+    const releaseDate = new Date(game.first_release_date * 1000);
+    const dateString = releaseDate.toDateString();
+    const coverUrl = game.cover?.url || "";
+
+    message += `**${game.name}**\n${dateString}\n${game.release_dates
+      .map((release_date) => `${release_date.platform.name}`)
+      .join(", ")}\nhttps:${coverUrl}\n\n`;
+  });
+
+  channel.send(message);
+}
+
+async function authenticateTwitch() {
+  const clientId = process.env.TWITCH_CLIENT_ID;
+  const clientSecret = process.env.TWITCH_CLIENT_SECRET;
+
+  const url = "https://id.twitch.tv/oauth2/token";
+
+  try {
+    const response = await axios.post(url, null, {
+      params: {
+        client_id: clientId,
+        client_secret: clientSecret,
+        grant_type: "client_credentials",
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error authenticating with Twitch:", error.message);
+    return null;
+  }
 }
 
 client.login(token);

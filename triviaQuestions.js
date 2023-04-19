@@ -377,5 +377,173 @@ const triviaQuestions = [
     options: ["Iraq", "Syria", "Afghanistan"],
     answer: "Afghanistan",
   },
+  {
+    question: "Which game features the 'VATS' combat system?",
+    options: ["Deus Ex", "Fallout 3", "Mass Effect"],
+    answer: "Fallout 3",
+  },
+  {
+    question: "Which game series features the 'S.T.A.L.K.E.R.' acronym?",
+    options: ["Half-Life", "Metro", "S.T.A.L.K.E.R."],
+    answer: "S.T.A.L.K.E.R.",
+  },
+  {
+    question: "What is the name of the alien race in the game 'Crysis'?",
+    options: ["Ceph", "Vortigaunts", "Combine"],
+    answer: "Ceph",
+  },
+  {
+    question: "Which game was developed by Team Ico?",
+    options: ["Shadow of the Colossus", "Ico", "Both"],
+    answer: "Both",
+  },
+  {
+    question:
+      "In the game 'Dark Souls', what is the name of the first boss players encounter?",
+    options: ["Asylum Demon", "Taurus Demon", "Capra Demon"],
+    answer: "Asylum Demon",
+  },
+  {
+    question: "Which game is set in the post-apocalyptic world of Pandora?",
+    options: ["Borderlands", "Fallout", "Mad Max"],
+    answer: "Borderlands",
+  },
+  {
+    question:
+      "In 'The Elder Scrolls IV: Oblivion', which Daedric Prince is known as the 'Mad God'?",
+    options: ["Sheogorath", "Molag Bal", "Sanguine"],
+    answer: "Sheogorath",
+  },
+  {
+    question:
+      "In 'Super Mario 64', how many Power Stars are required to access the final boss?",
+    options: ["70", "120", "100"],
+    answer: "70",
+  },
+  {
+    question: "What was the first 'Call of Duty' game set in World War II?",
+    options: ["Call of Duty", "Call of Duty: World at War", "Call of Duty 2"],
+    answer: "Call of Duty",
+  },
+  {
+    question: "Which game features the planet Tallon IV?",
+    options: ["Metroid Prime", "Mass Effect", "Halo"],
+    answer: "Metroid Prime",
+  },
+  {
+    question: "Which game features the time-manipulating 'Dagger of Time'?",
+    options: ["Prince of Persia: The Sands of Time", "Braid", "Quantum Break"],
+    answer: "Prince of Persia: The Sands of Time",
+  },
+  {
+    question: "In 'Overwatch', which character can build a teleporter?",
+    options: ["Symmetra", "Torbjörn", "Winston"],
+    answer: "Symmetra",
+  },
+  {
+    question: "What is the name of the fictional city in the game 'Bully'?",
+    options: ["Bullworth", "New Coventry", "Blue Skies"],
+    answer: "Bullworth",
+  },
+  {
+    question: "Which game features a protagonist named Lee Everett?",
+    options: ["The Walking Dead: The Game", "The Last of Us", "Left 4 Dead"],
+    answer: "The Walking Dead: The Game",
+  },
+  {
+    question: "Which game features a character named Alex Mercer?",
+    options: ["Prototype", "Infamous", "Dishonored"],
+    answer: "Prototype",
+  },
+  {
+    question: "What is the name of the AI companion in the 'Halo' series?",
+    options: ["Cortana", "GLaDOS", "EDI"],
+    answer: "Cortana",
+  },
+  {
+    question:
+      "Which classic video game requires players to rotate and arrange falling blocks?",
+    options: ["Tetris", "Dr. Mario", "Columns"],
+    answer: "Tetris",
+  },
+  {
+    question:
+      "In 'The Elder Scrolls III: Morrowind', what is the name of the primary antagonist?",
+    options: ["Dagoth Ur", "Mehrunes Dagon", "Alduin"],
+    answer: "Dagoth Ur",
+  },
+  {
+    question:
+      "What is the name of the island in 'The Legend of Zelda: The Wind Waker'?",
+    options: ["Outset Island", "Koholint Island", "Dragon Roost Island"],
+    answer: "Outset Island",
+  },
+  {
+    question:
+      "What is the primary objective of the game 'Sid Meier's Civilization'?",
+    options: [
+      "Conquer the world",
+      "Establish a successful colony",
+      "Escape from a post-apocalyptic world",
+    ],
+    answer: "Conquer the world",
+  },
+  {
+    question:
+      "Which game series features a character named Guybrush Threepwood?",
+    options: ["Monkey Island", "Grim Fandango", "Broken Sword"],
+    answer: "Monkey Island",
+  },
+  {
+    question: "Which game features a boss called Psycho Mantis?",
+    options: ["Metal Gear Solid", "Resident Evil", "Silent Hill"],
+    answer: "Metal Gear Solid",
+  },
+  {
+    question: "What is the name of the protagonist in 'Dishonored'?",
+    options: ["Corvo Attano", "Daud", "Emily Kaldwin"],
+    answer: "Corvo Attano",
+  },
+  {
+    question:
+      "Which game features a post-apocalyptic world where players can use VATS?",
+    options: ["Fallout", "Metro 2033", "Rage"],
+    answer: "Fallout",
+  },
+  {
+    question: "Which game features a character named Senua?",
+    options: [
+      "Hellblade: Senua's Sacrifice",
+      "Sekiro: Shadows Die Twice",
+      "A Plague Tale: Innocence",
+    ],
+    answer: "Hellblade: Senua's Sacrifice",
+  },
+  {
+    question: "What is the name of the main character in 'Fable'?",
+    options: [
+      "The Hero of Oakvale",
+      "The Hero of Bowerstone",
+      "The Hero of Albion",
+    ],
+    answer: "The Hero of Oakvale",
+  },
+  {
+    question:
+      "Which game features a character named Desmond Miles as the main protagonist?",
+    options: ["Assassin's Creed", "Prince of Persia", "Watch Dogs"],
+    answer: "Assassin's Creed",
+  },
+  {
+    question: "Which game features a character named Ryo Hazuki?",
+    options: ["Shenmue", "Yakuza", "Sleeping Dogs"],
+    answer: "Shenmue",
+  },
+  {
+    question:
+      "In 'StarCraft', which faction is known for its advanced technology and psionic abilities?",
+    options: ["Terran", "Zerg", "Protoss"],
+    answer: "Protoss",
+  },
 ];
 exports.triviaQuestions = triviaQuestions;
