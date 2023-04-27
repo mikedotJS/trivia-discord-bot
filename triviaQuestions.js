@@ -545,5 +545,57 @@ const triviaQuestions = [
     options: ["Terran", "Zerg", "Protoss"],
     answer: "Protoss",
   },
+  {
+    question: "In 'Planescape: Torment', what is the protagonist's title?",
+    options: ["The Nameless One", "The Chosen Undead", "The Watcher"],
+    answer: "The Nameless One",
+  },
+  {
+    question: "What is the primary currency in the 'Path of Exile'?",
+    options: ["Orbs", "Coins", "Gold"],
+    answer: "Orbs",
+  },
+  {
+    question:
+      "In 'Stardew Valley', which character is NOT a marriage candidate?",
+    options: ["Penny", "Caroline", "Abigail"],
+    answer: "Caroline",
+  },
+  {
+    question: "What is the name of the fictional country in 'Papers, Please'?",
+    options: ["Arstotzka", "Kolechia", "Obristan"],
+    answer: "Arstotzka",
+  },
+  {
+    question: "Which game features an alien race called the 'Elcor'?",
+    options: ["Star Control", "Mass Effect", "Galactic Civilizations"],
+    answer: "Mass Effect",
+  },
+  {
+    question:
+      "In 'Kerbal Space Program', what is the home planet of the Kerbals?",
+    options: ["Kerbin", "Kearth", "Korbin"],
+    answer: "Kerbin",
+  },
+  {
+    question: "What is the main character's name in 'Gris'?",
+    options: ["Gris", "Aria", "Celeste"],
+    answer: "Gris",
+  },
+  {
+    question: "What is the main character's weapon in 'Hyper Light Drifter'?",
+    options: ["Energy Sword", "Laser Gun", "Crossbow"],
+    answer: "Energy Sword",
+  },
+  {
+    question: "Which game features the character Razputin Aquato?",
+    options: ["Psychonauts", "Grim Fandango", "Full Throttle"],
+    answer: "Psychonauts",
+  },
+  {
+    question: "In 'Undertale', what name is given to the player's soul?",
+    options: ["DETERMINATION", "LOVE", "HOPE"],
+    answer: "DETERMINATION",
+  },
 ];
 exports.triviaQuestions = triviaQuestions;
