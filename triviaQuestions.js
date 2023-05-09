@@ -597,5 +597,57 @@ const triviaQuestions = [
     options: ["DETERMINATION", "LOVE", "HOPE"],
     answer: "DETERMINATION",
   },
+  {
+    question: "In 'Amnesia: The Dark Descent', who is the main antagonist?",
+    options: ["Alexander of Brennenburg", "Daniel", "Justine"],
+    answer: "Alexander of Brennenburg",
+  },
+  {
+    question: "What is the primary game mechanic in 'Superhot'?",
+    options: ["Time moves only when you move", "Invisibility", "Teleportation"],
+    answer: "Time moves only when you move",
+  },
+  {
+    question:
+      "In 'Vampire: The Masquerade - Bloodlines', which clan is known for their unparalleled beauty?",
+    options: ["Toreador", "Ventrue", "Malkavian"],
+    answer: "Toreador",
+  },
+  {
+    question: "In 'Braid', what is the main character's primary ability?",
+    options: ["Telekinesis", "Time Manipulation", "Invisibility"],
+    answer: "Time Manipulation",
+  },
+  {
+    question: "Which game features the city of 'Sigil' as its main setting?",
+    options: ["Planescape: Torment", "Baldur's Gate", "Neverwinter Nights"],
+    answer: "Planescape: Torment",
+  },
+  {
+    question: "In 'Cultist Simulator', which is NOT a type of lore?",
+    options: ["Lantern", "Winter", "Alchemy"],
+    answer: "Alchemy",
+  },
+  {
+    question: "In 'Hollow Knight', which is NOT a playable character?",
+    options: ["The Knight", "Hornet", "Quirrel"],
+    answer: "Quirrel",
+  },
+  {
+    question:
+      "Which game features a character named 'Madeline' as the protagonist?",
+    options: ["Celeste", "Gris", "Oxenfree"],
+    answer: "Celeste",
+  },
+  {
+    question: "What is the name of the protagonist in 'Bastion'?",
+    options: ["The Kid", "Ruck", "Zulf"],
+    answer: "The Kid",
+  },
+  {
+    question: "In 'Slay the Spire', which is NOT a playable character?",
+    options: ["The Ironclad", "The Defect", "The Alchemist"],
+    answer: "The Alchemist",
+  },
 ];
 exports.triviaQuestions = triviaQuestions;
